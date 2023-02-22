@@ -19,6 +19,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//User auth
+Route::prefix('/')->group(function () {
+    Route::post('/v1/login', 'App\Http\Controllers\Api\AuthController@login');
+
+    Route::post('/v1/register', 'App\Http\Controllers\Api\AuthController@register');
+
+    Route::post('/logout', 'App\Http\Controllers\Api\AuthController@logout');
+});
+
 //Book
 Route::prefix('books')->group(function () {
     Route::get('/', 'App\Http\Controllers\Api\BookController@index');
