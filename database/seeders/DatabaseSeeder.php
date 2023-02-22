@@ -26,13 +26,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            ['name' => 'Duc', "email" => "duc@example.com", "password" => "12345"],
-            ['name' => 'Minh', "email" => "minh@example.com", "password" => "12345"],
+            ['name' => 'Duc', "email" => "duc@example.com", "password" => md5('12345')],
+            ['name' => 'Minh', "email" => "minh@example.com", "password" => md5('12345')],
         ]);
 
         DB::table('customers')->insert([
-            ['name' => 'Tan', 'email' => 'tan@example.com', 'password' => '12345', 'phone' => '0987654321', 'address' => 'abc'],
-            ['name' => 'Huy', 'email' => 'huy@example.com', 'password' => '12345', 'phone' => '0123456789', 'address' => 'def'],
+            ['name' => 'Tan', 'email' => 'tan@example.com', 'password' => md5('12345'), 'phone' => '0987654321', 'address' => 'abc'],
+            ['name' => 'Huy', 'email' => 'huy@example.com', 'password' => md5('12345'), 'phone' => '0123456789', 'address' => 'def'],
         ]);
     }
 }
