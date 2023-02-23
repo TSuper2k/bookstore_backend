@@ -25,10 +25,6 @@
                     </div>
 
                     <div class="col-md-12">
-                        <a href="{{ route('book.create') }}" class="btn btn-success float-right m-2">Add</a>
-                    </div>
-
-                    <div class="col-md-12">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -47,6 +43,7 @@
                                         <td>{{ number_format($book->price) }}</td>
                                         <td>{{ $book->description }}</td>
                                         <td>
+                                            <a href="{{ route('book.create') }}" class="btn btn-success">Add</a>
                                             <a href="{{ route('book.edit', ['id' => $book->id]) }}"
                                                 class="btn btn-primary">Edit</a>
                                             <a href="{{ route('book.delete', ['id' => $book->id]) }}"
