@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -24,11 +26,10 @@ class AuthController extends Controller
             'password' => md5($validatedData['password']),
         ]);
 
-        // $token = $user->createToken('authToken')->plainTextToken;
+        $accessToken = $user->createToken('authToken')->accessToken;
 
         return response()->json([
-            'user' => $user,
-            // 'access_token' => $token,
+            'access_token' => $accessToken,
         ]);
     }
 
@@ -47,11 +48,17 @@ class AuthController extends Controller
         }
 
         if ($user->password === md5($request->password)) {
-            // $token = $user->createToken('authToken')->plainTextToken;
+            $accessToken = $user->createToken('authToken')->accessToken;
+
+            File::put(storage_path('app/access_token.txt'), $accessToken);
+
+            session()->start();
+            session()->put('access_token', $accessToken);
+            // $user->remember_token = $accessToken;
+            // $user->save();
 
             return response()->json([
-                'user' => $user,
-                // 'access_token' => $token
+                'access_token' => $accessToken
             ]);
         } else {
             return response()->json([
@@ -60,12 +67,23 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $request->user()->tokens()->delete();
+        $accessToken = Auth::user()->token();
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $accessToken->id)
+            ->update([
+                'revoked' => true
+            ]);
 
+        $accessToken->revoke();
         return response()->json([
-            'message' => 'Đăng xuất thành công',
+            'message' => 'Đăng xuất thành công', 204
         ]);
+        // $request->user()->currentAccessToken()->delete();
+
+        // return response()->json([
+        //     'message' => 'Đăng xuất thành công',
+        // ]);
     }
 }

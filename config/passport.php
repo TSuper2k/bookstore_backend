@@ -55,8 +55,8 @@ return [
     */
 
     'personal_access_client' => [
-        'id' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_ID'),
-        'secret' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET'),
+        'id' => env('9886e2d0-ddc9-4729-a5db-7bdce48d37b2'),
+        'secret' => env('08CbwZCN4kJlqxosQ8WmPwwPLR5ihPBqyOBLOwH4'),
     ],
 
 ];
