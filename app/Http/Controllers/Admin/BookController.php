@@ -3,61 +3,69 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookStoreRequest;
+use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
-    public function index(){
-        $books = Book::get();
+    private $book;
+    public function __construct(Book $book)
+    {
+        $this->book = $book;
+    }
+
+    public function index()
+    {
+        $books = $this->book->paginate(5);
 
         return view('admin.book.index', compact('books'));
     }
 
-    public function create(){
+    public function create()
+    {
         return view('admin.book.create');
     }
 
-    public function store(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'description' => 'required|string',
+    public function store(BookStoreRequest $request)
+    {
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('book_images'), $imageName);
+
+        $this->book->create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'image_path' => 'book_images/' . $imageName
         ]);
 
-        $book = new Book();
-        $book->name = $request->name;
-        $book->price = $request->price;
-        $book->description = $request->description;
-
-        $book->save();
-
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success', 'Book created successfully.');
     }
 
-    public function edit($id){
-        $book = Book::findOrFail($id);
+    public function edit($id)
+    {
+        $book = $this->book->find($id);
 
         return view('admin.book.edit', compact('book'));
     }
 
-    public function update(Request $request, $id){
-        $book = Book::findOrFail($id);
+    public function update(BookUpdateRequest $request, $id)
+    {
+        $this->book->find($id)->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+        ]);
 
-        $book->name = $request->input('name');
-        $book->price = $request->input('price');
-        $book->description = $request->input('description');
-
-        $book->save();
-
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success', 'Book updated successfully.');
     }
 
-    public function delete($id){
-        $book = Book::findOrFail($id);
-        
-        $book->delete();
+    public function delete($id)
+    {
+        $this->book->find($id)->delete();
 
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success', 'Book has been removed.');
     }
 }

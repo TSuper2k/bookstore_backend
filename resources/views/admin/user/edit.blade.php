@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-    <title>Book Editing</title>
+    <title>User Management</title>
 @endsection
 
 @section('css')
@@ -23,35 +23,44 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Book Editing</h1>
+                    <h1>User Editing</h1>
                 </div>
 
                 <div class="col-md-12">
-                    <form action="{{ route('book.update', ['id' => $book->id]) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('user.update', ['id' => $user->id]) }}" method="post">
                         @csrf
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" class="form-control" @error('name') is-invalid @enderror
-                                name="name" placeholder="Name" value="{{ $book->name }}">
+                                name="name" placeholder="Name" value="{{ $user->name }}">
                             @error('name')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label>Price</label>
-                            <input type="text" class="form-control" @error('price') is-invalid @enderror
-                                name="price" placeholder="Price" value="{{ $book->price }}">
-                            @error('price')
+                            <label>Email</label>
+                            <input type="email" class="form-control" @error('email') is-invalid @enderror
+                                name="email" placeholder="Email" value="{{ $user->email }}" readonly>
+                            @error('email')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label>Description</label>
-                            <input type="text" class="form-control" @error('description') is-invalid @enderror
-                                name="description" placeholder="Description" value="{{ $book->description }}">
-                            @error('description')
+                            <label>Password</label>
+                            <input type="password" class="form-control" @error('password') is-invalid @enderror
+                                name="password" placeholder="Password" value="">
+                            @error('password')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password Confirm</label>
+                            <input type="password" class="form-control" @error('password_confirm') is-invalid @enderror
+                                name="password_confirm" placeholder="Password Confirm" value="">
+                            @error('password_confirm')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
