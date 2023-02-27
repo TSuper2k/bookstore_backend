@@ -39,6 +39,21 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Image</label>
+                            <input type="file"
+                                class="form-control-file" @error('image_path') is-invalid @enderror
+                                name="image_path" value="">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <img class="feature_image" src="{{ $book->image_path }}" alt="">
+                                    </div>
+                                </div>
+                            @error('image_path')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label>Price</label>
                             <input type="text" class="form-control" @error('price') is-invalid @enderror
                                 name="price" placeholder="Price" value="{{ $book->price }}">

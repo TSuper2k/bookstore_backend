@@ -5,9 +5,11 @@
 @endsection
 
 @section('css')
+    <link rel="stylesheet" href="{{ asset('books/book.css') }}">
 @endsection
 
 @section('js')
+    <script src="{{ asset('books/book.js') }}"></script>
 @endsection
 
 @section('content')
@@ -51,8 +53,8 @@
                                     <tr>
                                         <th scope="row">{{ $book->id }}</th>
                                         <td>{{ $book->name }}</td>
-                                        <td>
-                                            <img src="{{ url($book->image_path) }}" alt="">
+                                        <td class="book_image">
+                                            <img class="book_image_item" src="{{ url($book->image_path) }}" alt="">
                                         </td>
                                         <td>{{ number_format($book->price) }}</td>
                                         <td>{{ $book->description }}</td>

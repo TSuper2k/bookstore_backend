@@ -41,9 +41,9 @@
                         <div class="form-group">
                             <label>Image</label>
                             <input type="file"
-                                class="form-control-file @error('image') is-invalid @enderror"
-                                name="image" value="{{ old('image') }}">
-                            @error('image')
+                                class="form-control-file" @error('image_path') is-invalid @enderror
+                                name="image_path" value="{{ old('image_path') }}">
+                            @error('image_path')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>

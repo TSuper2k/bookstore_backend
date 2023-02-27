@@ -31,8 +31,12 @@ class BookController extends Controller
 
     public function store(BookStoreRequest $request)
     {
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('book_images'), $imageName);
+        if ($request->hasFile('image_path')) {
+            $imageName = time() . '.' . $request->image_path->extension();
+            $request->image_path->move(public_path('book_images'), $imageName);
+        } else {
+            $imageName = '';
+        }
 
         $this->book->create([
             'name' => $request->name,
@@ -53,10 +57,22 @@ class BookController extends Controller
 
     public function update(BookUpdateRequest $request, $id)
     {
-        $this->book->find($id)->update([
+        $book = $this->book->find($id);
+
+        $imageName = $book->image_path;
+        if ($request->has('image_path')) {
+            $imageName = time() . '.' . $request->image_path->extension();
+            $request->image_path->move(public_path('book_images'), $imageName);
+            if (file_exists(public_path($book->image_path))) {
+                unlink(public_path($book->image_path));
+            }
+        }
+
+        $book->update([
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
+            'image_path' => 'book_images/' . $imageName
         ]);
 
         return redirect()->route('book.index')->with('success', 'Book updated successfully.');

@@ -23,6 +23,7 @@ class BookUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'image_path' =>'required',
             'price' => 'required|numeric|min:0',
             'description' => 'required|string',
         ];
@@ -33,6 +34,7 @@ class BookUpdateRequest extends FormRequest
         return [
             'name.required' => 'Name is required',
             'name.max' => 'Name cannot exceed 255 characters',
+            'image_path' => 'Image is required',
             'price.required' => 'Price is required',
             'price.numeric' => 'Price is only numberic',
             'description.required' => 'Description is required'
