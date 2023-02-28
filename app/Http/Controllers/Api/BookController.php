@@ -8,23 +8,41 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index(){
-        $books = Book::all();
+    private $book;
+    public function __construct(Book $book)
+    {
+        $this->book = $book;
+    }
+
+    public function index()
+    {
+        $books = $this->book->get();
+
         return response()->json($books);
     }
 
-    public function store(Request $request){
-        $book = new Book;
-        $book->name = $request->name;
-        $book->description = $request->description ?? $book->description;
-        $book->price = $request->price;
-        $book->save();
+    public function store(Request $request)
+    {
+        if ($request->hasFile('image_path')) {
+            $imageName = time() . '.' . $request->image_path->extension();
+            $request->image_path->move(public_path('book_images'), $imageName);
+        } else {
+            $imageName = '';
+        }
+
+        $book = $this->book->create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'image_path' => 'book_images/' . $imageName
+        ]);
 
         return response()->json($book, 200);
     }
 
-    public function show($id){
-        $book = Book::find($id);
+    public function show($id)
+    {
+        $book = $this->book->find($id);
         if ($book) {
             return response()->json($book);
         } else {
@@ -32,21 +50,35 @@ class BookController extends Controller
         }
     }
 
-    public function update(Request $request, $id){
-        $book = Book::find($id);
+    public function update(Request $request, $id)
+    {
+        $book = $this->book->find($id);
+
         if ($book) {
-            $book->name = $request->name ?? $book->name;
-            $book->description = $request->description ?? $book->description;
-            $book->price = $request->price ?? $book->price;
-            $book->save();
+            $imageName = $book->image_path;
+            if ($request->has('image_path')) {
+                $imageName = time() . '.' . $request->image_path->extension();
+                $request->image_path->move(public_path('book_images'), $imageName);
+                if (file_exists(public_path($book->image_path))) {
+                    unlink(public_path($book->image_path));
+                }
+            }
+
+            $book->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+                'image_path' => 'book_images/' . $imageName
+            ]);
             return response()->json($book);
         } else {
             return response()->json(['message' => 'Không tìm thấy sách'], 404);
         }
     }
 
-    public function delete($id){
-        $book = Book::find($id);
+    public function delete($id)
+    {
+        $book = $this->book->find($id);
         if ($book) {
             $book->delete();
             return response()->json(['message' => 'Xóa sách thành công']);
