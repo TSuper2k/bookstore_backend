@@ -66,3 +66,16 @@ Route::prefix('customers')->group(function () {
 
     Route::delete('/{id}', 'App\Http\Controllers\Api\CustomerController@delete');
 });
+
+//Order
+Route::prefix('orders')->group(function () {
+    Route::get('/', 'App\Http\Controllers\Api\OrderController@index');
+
+    Route::post('/', 'App\Http\Controllers\Api\OrderController@store');
+
+    Route::get('/{id}', 'App\Http\Controllers\Api\OrderController@show');
+
+    Route::put('/{id}', 'App\Http\Controllers\Api\OrderController@update');
+
+    Route::delete('/{id}', 'App\Http\Controllers\Api\OrderController@delete');
+});

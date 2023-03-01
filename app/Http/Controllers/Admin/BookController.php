@@ -58,6 +58,7 @@ class BookController extends Controller
         $book = $this->book->find($id);
 
         $imageName = $book->image_path;
+
         if ($request->has('image_path')) {
             $imageName = time() . '.' . $request->image_path->extension();
             $request->image_path->move(public_path('book_images'), $imageName);

@@ -19,20 +19,15 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        DB::table('books')->insert([
-            ['name' => 'One Piece', "description" => "Đây là mô tả truyện One Piece", "price" => "20000"],
-            ['name' => 'Naruto', "description" => "Đây là mô tả truyện Naruto", "price" => "19000"],
-            ['name' => 'Doraemon', "description" => "Đây là mô tả truyện Doraemon", "price" => "18000"],
-        ]);
+        // DB::table('books')->insert([
+        //     ['name' => 'One Piece', "description" => "Đây là mô tả truyện One Piece", "price" => "20000"],
+        //     ['name' => 'Naruto', "description" => "Đây là mô tả truyện Naruto", "price" => "19000"],
+        //     ['name' => 'Doraemon', "description" => "Đây là mô tả truyện Doraemon", "price" => "18000"],
+        // ]);
 
         DB::table('users')->insert([
-            ['name' => 'Duc', "email" => "duc@example.com", "password" => md5('12345')],
-            ['name' => 'Minh', "email" => "minh@example.com", "password" => md5('12345')],
-        ]);
-
-        DB::table('customers')->insert([
-            ['name' => 'Tan', 'email' => 'tan@example.com', 'password' => md5('12345'), 'phone' => '0987654321', 'address' => 'abc'],
-            ['name' => 'Huy', 'email' => 'huy@example.com', 'password' => md5('12345'), 'phone' => '0123456789', 'address' => 'def'],
+            ['name' => 'Duc', "email" => "duc@example.com", "password" => md5('12345'), "role" => 0],
+            ['name' => 'Minh', "email" => "minh@example.com", "password" => md5('12345'), "role" => 1],
         ]);
     }
 }
