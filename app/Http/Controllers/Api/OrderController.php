@@ -25,11 +25,13 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $user_id = Auth::guard('api')->id();
+        $total_price = $request->input('totalPrice');
+
         $order = new Order;
-        $order->user_id = $user->id;
-        $order->total_price = $request->totalPrice;
-        $order->status = '1';
+        $order->user_id = $user_id;
+        $order->total_price = $total_price;
+        $order->status = 'pending';
         $order->save();
 
         $books = $request->books;
