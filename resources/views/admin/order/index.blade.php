@@ -35,7 +35,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Customer name</th>
+                                <th scope="col">User_id</th>
                                 <th scope="col">Total price</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
@@ -45,7 +45,7 @@
                             @foreach ($orders as $order)
                                 <tr>
                                     <th scope="row">{{ $order->id }}</th>
-                                    <td>{{ $order->customer_name }}</td>
+                                    <td>{{ $order->user_id }}</td>
                                     <td>{{ number_format($order->total_price) }}</td>
                                     <td>{{ $order->status }}</td>
                                     <td>

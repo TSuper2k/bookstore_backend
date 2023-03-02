@@ -34,16 +34,16 @@ class OrderController extends Controller
         $order->status = 'pending';
         $order->save();
 
-        $books = $request->books;
+        // $books = $request->books;
 
-        foreach ($books as $book) {
-            $orderDetail = new OrderDetail();
-            $orderDetail->order_id = $order->id;
-            $orderDetail->book_id = $book['id'];
-            $orderDetail->quantity = $book['quantity'];
-            $orderDetail->price = $book['price'];
-            $orderDetail->save();
-        }
+        // foreach ($books as $book) {
+        //     $orderDetail = new OrderDetail();
+        //     $orderDetail->order_id = $order->id;
+        //     $orderDetail->book_id = $book['id'];
+        //     $orderDetail->quantity = $book['quantity'];
+        //     $orderDetail->price = $book['price'];
+        //     $orderDetail->save();
+        // }
 
         return response()->json([
             'success' => true,
