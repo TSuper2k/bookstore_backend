@@ -7,8 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -49,13 +47,6 @@ class AuthController extends Controller
 
         if ($user->password === md5($request->password)) {
             $accessToken = $user->createToken('authToken')->accessToken;
-
-            File::put(storage_path('app/access_token.txt'), $accessToken);
-
-            session()->start();
-            session()->put('access_token', $accessToken);
-            // $user->remember_token = $accessToken;
-            // $user->save();
 
             return response()->json([
                 'access_token' => $accessToken

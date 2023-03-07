@@ -15,10 +15,6 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 //User auth
 Route::prefix('/')->group(function () {
     Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
@@ -52,19 +48,6 @@ Route::prefix('users')->group(function () {
     Route::put('/{id}', 'App\Http\Controllers\Api\UserController@update');
 
     Route::delete('/{id}', 'App\Http\Controllers\Api\UserController@delete');
-});
-
-//Customer
-Route::prefix('customers')->group(function () {
-    Route::get('/', 'App\Http\Controllers\Api\CustomerController@index');
-
-    Route::post('/', 'App\Http\Controllers\Api\CustomerController@store');
-
-    Route::get('/{id}', 'App\Http\Controllers\Api\CustomerController@show');
-
-    Route::put('/{id}', 'App\Http\Controllers\Api\CustomerController@update');
-
-    Route::delete('/{id}', 'App\Http\Controllers\Api\CustomerController@delete');
 });
 
 //Order

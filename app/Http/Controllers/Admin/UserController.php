@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -31,7 +29,7 @@ class UserController extends Controller
         $this->user->create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => md5($request->password),
         ]);
 
         return redirect()->route('user.index')->with('success', 'User created successfully.');
@@ -47,7 +45,7 @@ class UserController extends Controller
         $this->user->find($id)->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => md5($request->password),
         ]);
 
         return redirect()->route('user.index')->with('success', 'User updated successfully.');

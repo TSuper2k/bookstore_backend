@@ -23,7 +23,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'password' => 'required|min:6',
+            'password' => 'required|min:5',
             'password_confirm' => 'required|same:password'
         ];
     }
@@ -34,7 +34,7 @@ class UserUpdateRequest extends FormRequest
             'name.required' => 'Name is required',
             'name.max' => 'Name cannot exceed 255 characters',
             'password.required' => 'Password is required',
-            'password.min' => 'Password must not be less than 6 characters',
+            'password.min' => 'Password must not be less than 5 characters',
             'password_confirm.required' => 'Password Confirm is required',
             'password_confirm.same' => 'Password Confirm must be the same as Password'
         ];

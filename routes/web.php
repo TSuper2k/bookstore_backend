@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 //Admin
 Route::prefix('/')->group(function(){
@@ -58,14 +58,14 @@ Route::prefix('/')->group(function(){
     Route::prefix('order')->group(function(){
         Route::get('/', 'App\Http\Controllers\Admin\OrderController@index')->name('order.index');
 
-        Route::get('/create', 'App\Http\Controllers\Admin\OrderController@create')->name('user.create');
+        Route::get('/create', 'App\Http\Controllers\Admin\OrderController@create')->name('order.create');
 
-        Route::post('/store', 'App\Http\Controllers\Admin\OrderController@store')->name('user.store');
+        Route::post('/store', 'App\Http\Controllers\Admin\OrderController@store')->name('order.store');
 
-        Route::get('/edit/{id}', 'App\Http\Controllers\Admin\OrderController@edit')->name('user.edit');
+        Route::get('/edit/{id}', 'App\Http\Controllers\Admin\OrderController@edit')->name('order.edit');
 
-        Route::post('/update/{id}', 'App\Http\Controllers\Admin\OrderController@update')->name('user.update');
+        Route::post('/update/{id}', 'App\Http\Controllers\Admin\OrderController@update')->name('order.update');
 
-        Route::get('/delete{id}', 'App\Http\Controllers\Admin\OrderController@delete')->name('user.delete');
+        Route::get('/delete{id}', 'App\Http\Controllers\Admin\OrderController@delete')->name('order.delete');
     });
 });
