@@ -3,30 +3,36 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index()
     {
-        $users = User::all();
+        $users = $this->userService->getAllUsers();
+
         return response()->json($users);
     }
 
     public function store(Request $request)
     {
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->save();
+        $user = $this->userService->createUser($request);
+
         return response()->json($user, 200);
     }
 
     public function show($id)
     {
-        $user = User::find($id);
+        $user = $this->userService->getUserById($id);
+
         if ($user) {
             return response()->json($user);
         } else {
@@ -36,13 +42,9 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = $this->userService->updateUser($request, $id);
+
         if ($user) {
-            $user->name = $request->name ?? $user->name;
-            $user->email = $request->email ?? $user->email;
-            $user->password = $request->password ?? $user->password;
-            $user->save();
-            return response()->json($user);
         } else {
             return response()->json(['message' => 'Không tìm thấy người dùng'], 404);
         }
@@ -50,9 +52,9 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = $this->userService->deleteUser($id);
+
         if ($user) {
-            $user->delete();
             return response()->json(['message' => 'Xóa người dùng thành công']);
         } else {
             return response()->json(['message' => 'Không tìm thấy người dùng'], 404);
